@@ -16,6 +16,14 @@ list:
 install:
 	arduino-cli core install $(CORE)
 
-# Open serial monitor for testing
+# Open serial monitor for testing (run in separate terminal)
 monitor:
-	arduino-cli monitor -p $(PORT)
+	screen -S arduino $(PORT) 9600
+
+# Send ON command to turn LED on (requires monitor running)
+on:
+	screen -S arduino -X stuff $$'ON\r'
+
+# Send OFF command to turn LED off (requires monitor running)
+off:
+	screen -S arduino -X stuff $$'OFF\r'

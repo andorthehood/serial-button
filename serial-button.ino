@@ -4,6 +4,7 @@ const unsigned long DEBOUNCE_DELAY = 50;
 int lastButtonState = HIGH;
 int buttonState = HIGH;
 unsigned long lastDebounceTime = 0;
+String serialInput = "";
 
 void setup() {
   Serial.begin(9600);
@@ -25,13 +26,25 @@ void loop() {
 
       if (buttonState == LOW) {
         Serial.println("DOWN");
-        digitalWrite(LED_BUILTIN, HIGH);
       } else {
         Serial.println("UP");
-        digitalWrite(LED_BUILTIN, LOW);
       }
     }
   }
 
   lastButtonState = reading;
+
+  while (Serial.available()) {
+    char c = Serial.read();
+    if (c == '\n' || c == '\r') {
+      if (serialInput == "ON") {
+        digitalWrite(LED_BUILTIN, HIGH);
+      } else if (serialInput == "OFF") {
+        digitalWrite(LED_BUILTIN, LOW);
+      }
+      serialInput = "";
+    } else {
+      serialInput += c;
+    }
+  }
 }
