@@ -1,7 +1,11 @@
-FQBN = arduino:megaavr:uno2018
-PORT = /dev/cu.usbmodem2102
+# FQBN = arduino:megaavr:uno2018
+FQBN = arduino:avr:nano
+# PORT = /dev/cu.usbmodem2102
+PORT = /dev/cu.usbserial-AB0JQKVM
+# CORE = arduino:megaavr
+CORE = arduino:avr
+
 SKETCH = serial-button.ino
-CORE = arduino:megaavr
 
 # Compile and upload sketch to the board
 build_and_upload:
@@ -20,10 +24,18 @@ install:
 monitor:
 	screen -S arduino $(PORT) 9600
 
-# Send ON command to turn LED on (requires monitor running)
-on:
-	screen -S arduino -X stuff $$'ON\r'
+# Send LED1ON command to turn LED 1 on (requires monitor running)
+led1on:
+	screen -S arduino -X stuff $$'LED1ON\r'
 
-# Send OFF command to turn LED off (requires monitor running)
-off:
-	screen -S arduino -X stuff $$'OFF\r'
+# Send LED1OFF command to turn LED 1 off (requires monitor running)
+led1off:
+	screen -S arduino -X stuff $$'LED1OFF\r'
+
+# Send LED2ON command to turn LED 2 on (requires monitor running)
+led2on:
+	screen -S arduino -X stuff $$'LED2ON\r'
+
+# Send LED2OFF command to turn LED 2 off (requires monitor running)
+led2off:
+	screen -S arduino -X stuff $$'LED2OFF\r'
